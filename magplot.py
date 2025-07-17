@@ -44,6 +44,7 @@ def update(frame):
         x = bytes_to_int24(raw[0:3])
         y = bytes_to_int24(raw[3:6])
         z = bytes_to_int24(raw[6:9])
+        print(f"X: {x}, Y: {y}, Z: {z}")  # Debug print
 
         t_data.append(time.time())
         x_data.append(x)
@@ -62,10 +63,13 @@ def update(frame):
         line_z.set_data(t_relative, z_data)
 
         ax.set_xlim(max(0, t_relative[0]), t_relative[-1] + 1)
+        ax.relim()
+        ax.autoscale_view()
     except Exception as e:
         print("Read error:", e)
 
     return line_x, line_y, line_z
+
 
 ani = FuncAnimation(fig, update, interval=200)  # update every 200 ms
 plt.tight_layout()
